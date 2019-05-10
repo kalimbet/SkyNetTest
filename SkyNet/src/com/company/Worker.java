@@ -10,7 +10,7 @@ public class Worker {
     private int rating = 0, weekRating = 0;
     private int days;
     private boolean finishTask = false;
-    ArrayList<Integer> weekListRating = new ArrayList<>();
+    ArrayList<Integer> dayskListRating = new ArrayList<>();
 
 
     Worker(String name, String surname){
@@ -19,7 +19,7 @@ public class Worker {
 
     }
 
-
+    //Report
     public void reportOfDay(int hourOfWork, int hourOfRest, byte completed){
         int check = hourOfRest + hourOfWork;
         if(check <= 24){
@@ -39,19 +39,26 @@ public class Worker {
         }
     }
 
-    public void week(){
-        weekListRating.add(rating);
+
+    //Update
+    public void addToListAndUpdate(){
+        dayskListRating.add(rating);
         rating = 0;
         timeOnRest = 0;
         timeOnWork = 0;
     }
 
+    public void updateWeekRating(){
+        weekRating = 0;
+    }
+
+    // Visualisation
     public void showDaysRating(){
-        for(int i = 0; i < weekListRating.size(); i++){
+        for(int i = 0; i < dayskListRating.size(); i++){
             days = i + 1;
             System.out.println("Day " + days);
-            System.out.println("    Rating : " + weekListRating.get(i));
-            System.out.println("    Conclusion : " + conclusionOfDay());
+            System.out.println("    Rating : " + dayskListRating.get(i));
+            System.out.println("    Conclusion : " + conclusionOfDay(dayskListRating.get(i)));
             System.out.println();
         }
     }
@@ -61,7 +68,8 @@ public class Worker {
         System.out.println("    Conclusion: " + conclusionOfWeek());
     }
 
-    public void calculateDayRating(){
+    //Calculation
+    public int calculateDayRating(){
         if(timeOnWork > 6){
             rating += 3;
         }else{
@@ -79,18 +87,20 @@ public class Worker {
         }else {
             rating += 1;
         }
+        return rating;
     }
 
     public int calculateWeekRating(){
-        for(int i = 0; i < weekListRating.size(); i++){
-            weekRating += weekListRating.get(i);
+        for(int i = 0; i < dayskListRating.size(); i++){
+            weekRating += dayskListRating.get(i);
         }
         return weekRating;
     }
 
-    public String conclusionOfDay(){
-        if(rating >= 5 && rating <= 7) return "Acceptable result";
-        if(rating >= 8) return "Excellent result";
+    //Conclusion
+    public String conclusionOfDay(int xRating){
+        if(xRating >= 5 && xRating <= 7) return "Acceptable result";
+        if(xRating >= 8) return "Excellent result";
         return "Bad result";
     }
 
@@ -100,6 +110,7 @@ public class Worker {
         return "Bad reuslt";
     }
 
+    //
     private void addOneHourWork(){
         timeOnWork += 1;
     }
